@@ -31,7 +31,7 @@ Commands.TankZedII = {};
 
 
 -----------------------            ---------------------------
-
+--[[
 function TankZedModII.coreFunc(zed)
     if not zed then return end
 
@@ -71,7 +71,7 @@ end
 
 Events.OnZombieUpdate.Remove(TankZedModII.coreFunc)
 Events.OnZombieUpdate.Add(TankZedModII.coreFunc)
-
+ ]]
 
 -----------------------            ---------------------------
 function TankZedModII.findzedID(int)

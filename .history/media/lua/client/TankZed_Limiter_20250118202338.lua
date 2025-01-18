@@ -103,7 +103,7 @@ function TankZedModII.OnCellChangeEvent(pl)
     end
 end
 Events.OnPlayerMove.Remove(TankZedModII.OnCellChangeEvent)
---Events.OnPlayerMove.Add(TankZedModII.OnCellChangeEvent)
+Events.OnPlayerMove.Add(TankZedModII.OnCellChangeEvent)
 
 function TankZedModII.markCellEdge(prevX, prevY, curX, curY)
     TankZedModII.setZeds()
@@ -115,4 +115,5 @@ function TankZedModII.markCellEdge(prevX, prevY, curX, curY)
         timer:Simple(10, function() TankZedModII.setMarkersToCellEdge(false) end)
     end
 end
---Events.OnCellChange.Add(TankZedModII.markCellEdge)
+Events.OnCellChange.Remove(TankZedModII.markCellEdge)
+Events.OnCellChange.Add(TankZedModII.markCellEdge)

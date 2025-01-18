@@ -29,6 +29,29 @@ TankZedModII = TankZedModII or {}
 
 
 
+function TankZedModII.zDdeath(zed)
+	if TankZedModII.isTankZed(zed) then
+	--[[ 	if zed:getModData()['TankZedII_HP'] <= 0 then
+			zed:setAvoidDamage(false)
+			zed:setImmortalTutorialZombie(false)
+			zed:setCanWalk(false)
+		else
+			zed:setAvoidDamage(true)
+			zed:setImmortalTutorialZombie(true)
+		end ]]
+		local zDeath = zed:getVariableBoolean('zDeath')
+		if zDeath then
+			zed:setAvoidDamage(false)
+			zed:setImmortalTutorialZombie(false)
+			zed:changeState(ZombieOnGroundState.instance())
+			zed:setAttackedBy(getCell():getFakeZombieForHit())
+			zed:becomeCorpse()
+		end
+	end
+end
+
+Events.OnZombieUpdate.Remove(TankZedModII.zDdeath)
+Events.OnZombieUpdate.Add(TankZedModII.zDdeath)
 
 function TankZedModII.hitZed(zed, pl, part, wpn)
 	if TankZedModII.isWearingTankZedII(pl) then return end

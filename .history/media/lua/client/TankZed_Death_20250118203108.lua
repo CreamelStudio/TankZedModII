@@ -1,4 +1,4 @@
---[[⠀
+--[[
 ----------------------------------------------------------------------------------------------------------------------------⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                       ⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⣀⣰⣦⣀⣀⠀⠠⠄⠄⠠⠀⠀⢀⣠⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⡿⢿⣦⠀⠀⠀⠀⠀⠀⠀⢀⡷⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⣩⡿⠋⠙⠉⢩⡿⠟⠀⠀⠀⠀⠀⠀⢀⣶⣾⠟⠋⠛⣿⣷⡄⠀⠀⠀⠀⠀⣴⣿⠂⠀⠀⣼⡿⠀⠀⠀⠀⠀⠀⢀⣠⡴⠶⣤⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⠦⠤⣤⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -18,37 +18,18 @@ https://ko-fi.com/glytch3r
 Discord: Glytch3r#1337 / glytch3r
 
 
-
 ----------------------------------------------------------------------------------------------------------------------------
 --]]
-
-
+require "lua_timers"
 require "TankZed_Util"
+
 TankZedModII = TankZedModII or {}
 
-local Commands = {};
-Commands.TankZedII = {};
+-----------------------               ---------------------------
 
-
------------------------            ---------------------------
-
-function TankZedModII.coreFunc(zed)
-    if not zed then return end
-
-    local zedVar = zed:getVariableBoolean('isTankZedII')
-
+function TankZedModII.zDeath(zed)
+	if not zed then return end
 	if TankZedModII.isTankZed(zed) then
-		if zed:getModData()['TankZedII_Init'] == nil then
-			--TankZedModII.setTag(zed)
-			TankZedModII.setStats(zed)
-		end
-	end
-    if TankZedModII.isTankZed(zed) and not zedVar then
-        zed:setVariable('isTankZedII', 'true')
-        if isClient() then
-            sendClientCommand('TankZedII', 'isTankZedII', {isTankZedII = true, zedID = zed:getOnlineID()})
-        end
-
 		local zDeath = zed:getVariableBoolean('zDeath')
 		if zDeath then
 			zed:setAvoidDamage(false)
@@ -57,133 +38,78 @@ function TankZedModII.coreFunc(zed)
 			zed:setAttackedBy(getCell():getFakeZombieForHit())
 			zed:becomeCorpse()
 		end
-
-    elseif not TankZedModII.isTankZed(zed) and zedVar then
-        zed:setVariable('isTankZedII', 'false')
-
-
-        if isClient() then
-            sendClientCommand('TankZedII', 'isTankZedII', {isTankZedII = false, zedID = zed:getOnlineID()})
-        end
-    end
-
-end
-
-Events.OnZombieUpdate.Remove(TankZedModII.coreFunc)
-Events.OnZombieUpdate.Add(TankZedModII.coreFunc)
-
-
------------------------            ---------------------------
-function TankZedModII.findzedID(int)
-	local zombies = getCell():getObjectList()
-	for i=zombies:size(),1,-1 do
-		local zed = zombies:get(i-1)
-		if instanceof(zed, "IsoZombie") then
-			local zedID=zed:getOnlineID()
-			if zedID and zedID == int then return zed end
-		end
 	end
-	return nil
 end
+Events.OnZombieUpdate.Remove(TankZedModII.zDeath)
+Events.OnZombieUpdate.Add(TankZedModII.zDeath)
 
-Commands.TankZedII.Stats = function(args)
-    local source = getPlayer();
-    local player = getPlayerByOnlineID(args.id)
-    local zedID = args.zedID
-    if type(zedID) == 'string' then zedID = tonumber(zedID) end
-    local zed = TankZedModII.findzedID(zedID)
-    if zed ~= nil then
-		if source ~= player then
-			if args.HP then
-				local HP = args.HP
-				TankZedModII.doDmg(zed, HP)
+function TankZedModII.deadZedLoot(zed)
+
+	if TankZedModII.isTankZed(zed) then
+		local attacker = zed:getAttackedBy()
+		if attacker and attacker == getPlayer() then
+
+			zed:getEmitter():stopAll()
+			zed:getEmitter():playSound('TankZed_Death')
+
+			local int = TankZedModII.getTankZedNum(zed)
+			local page = "TankZedModII_" .. tostring(int)
+
+			local lootStr = SandboxVars[page].Drop or 'Base.Katana'
+			local dropRate = SandboxVars[page].LootRate or 50
+
+			if SandboxVars.TankZedModII.VictorySfx then
+				getSoundManager():playUISound("GainExperienceLevel")
 			end
-			if args.WALK then
-				local WALK = args.WALK
-				if zed:getModData()['TankZedII_Walk'] == nil or zed:getModData()['TankZedII_Walk'] ~= WALK then
-					zed:getModData()['TankZedII_Walk'] = WALK
+
+
+			local sq = zed:getSquare()
+			if sq then
+
+				if dropRate == 0 then return end
+
+				local itemList = TankZedModII.parseItems(lootStr)
+				for _, item in ipairs(itemList) do
+					if dropRate == 100 or ZombRand(100) <= dropRate then
+						sq:AddWorldInventoryItem(item, ZombRand(0.1, 0.5), ZombRand(0.1, 0.5), 0)
+					end
 				end
+
 			end
 		end
+	end
+end
+Events.OnZombieDead.Remove(TankZedModII.deadZedLoot)
+Events.OnZombieDead.Add(TankZedModII.deadZedLoot)
+
+
+function TankZedModII.parseItems(lootStr)
+    local tab = {}
+    for item in string.gmatch(lootStr, "([^;]+)") do
+        table.insert(tab, item)
     end
+    return tab
 end
 
-Commands.TankZedII.isTankZedII = function(args)
-    local source = getPlayer();
-    local player = getPlayerByOnlineID(args.id)
-    local zedID = args.zedID
-    if type(zedID) == 'string' then zedID = tonumber(zedID) end
-    local zed = TankZedModII.findzedID(zedID)
-    if zed ~= nil then
-		if source ~= player then
-			if args.isTankZedII then
-				zed:setVariable('isTankZedII', 'true');
-			else
-				zed:setVariable('isTankZedII', 'false');
-			end
-		end
-    end
-end
-Commands.TankZedII.knockDownZed = function(args)
-    local source = getPlayer();
-    local player = getPlayerByOnlineID(args.id)
-    local zedID = args.zedID
-    if type(zedID) == 'string' then zedID = tonumber(zedID) end
-    local zed = TankZedModII.findzedID(zedID)
-	if source ~= player then
-		if zed ~= nil then
-			zed:setKnockedDown(true)
+
+function TankZedModII.doSrvImg(int)
+	if int ~= nil and int ~= '' then
+		if (int == 1 or int == 2) then
+			TankZedModII.showFadeImage('media/ui/ServerMsg'..tostring(int)..'.png', 9)
 		end
 	end
 end
 
------------------------            ---------------------------
-Commands.TankZedII.isWearingTankZedII = function(args)
-    local source = getPlayer();
-    local player = getPlayerByOnlineID(args.id)
-    if source ~= player then
-        if args.isWearingTankZedII then
-            player:setVariable('isWearingTankZedII', 'true');
-			player:setHideWeaponModel(true)
-			--TankZedModII.setTag(player)
-        else
-            player:setVariable('isWearingTankZedII', 'false');
-			player:setHideWeaponModel(false)
-			--TankZedModII.removeTag(player)
-        end
-    end
+function TankZedModII.doSrvSFX()
+	timer:Simple(1, function()
+		getSoundManager():playUISound("TankZed_Slain")
+	end)
 end
 
-Commands.TankZedII.Bashed = function(args)
-    local source = getPlayer();
-   --local player = getPlayerByOnlineID(args.id)
-	local targ = getPlayerByOnlineID(args.targID)
-    if source ~= targ then
-		TankZedModII.doBash(targ)
-    end
-end
-
-
-
-
-Commands.TankZedII.Crash = function(args)
-    local source = getPlayer();
-    local player = getPlayerByOnlineID(args.id)
-    local zedID = args.zedID
-    if type(zedID) == 'string' then zedID = tonumber(zedID) end
-    local zed = TankZedModII.findzedID(zedID)
-	if source ~= player then
-		if zed ~= nil then
-			TankZedModII.doCrashReact(zed)
-		end
+function TankZedModII.doSrvMsg(msg)
+	if msg ~= nil and msg ~= '' then
+		if  msg == 1 or msg == 2 then return end
+		ISChat.instance.servermsgTimer = 9000;
+		ISChat.instance.servermsg = tostring(msg)
 	end
 end
-
-
-Events.OnServerCommand.Add(function(module, command, args)
-	if Commands[module] and Commands[module][command] then
-		Commands[module][command](args)
-	end
-end)
-
-
