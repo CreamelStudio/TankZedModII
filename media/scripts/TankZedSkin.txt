@@ -1,0 +1,22 @@
+module TankZedII {
+    imports { Base }
+
+	item Dreadnought1
+	{
+		DisplayCategory = ZedDmg,
+		Type = Clothing,
+		ClothingItem = Dreadnought1,
+		BodyLocation = ZedDmg,
+		WorldRender = FALSE,
+	}
+
+	item Dreadnought2
+	{
+		DisplayCategory = ZedDmg,
+		Type = Clothing,
+		ClothingItem = Dreadnought2,
+		BodyLocation = ZedDmg,
+		WorldRender = FALSE,
+	}
+
+}

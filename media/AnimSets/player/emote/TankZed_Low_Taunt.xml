@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<animNode x_extends="default.xml">
+	<m_Name>TankZedLow_Taunt</m_Name>
+	<m_AnimName>TankZed_Low_Taunt</m_AnimName>
+	<m_Conditions>
+		<m_StringValue>TankZedLow_Taunt</m_StringValue>
+	</m_Conditions>
+
+    <m_Conditions>
+		<m_Name>isWearingTankZedII</m_Name>
+		<m_Type>BOOL</m_Type>
+		<m_BoolValue>true</m_BoolValue>
+	</m_Conditions>
+
+</animNode>
