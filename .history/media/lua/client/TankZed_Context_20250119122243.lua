@@ -120,7 +120,7 @@ function TankZedModII.Context(player, context, worldobjects)
 			else
 				print('killed '..tostring(count)..' Dreadnought')
 			end
-		end)
+		end);
 
 		sIco2.iconTexture = getTexture("media/ui/TankZedIcon_Red.png")
 
@@ -149,7 +149,7 @@ function TankZedModII.Context(player, context, worldobjects)
 			else
 				print('killed '..tostring(count)..' Zed')
 			end
-		end)
+		end);
 		sIco2.iconTexture = getTexture("media/ui/TankZedIcon_Red.png")
 
 

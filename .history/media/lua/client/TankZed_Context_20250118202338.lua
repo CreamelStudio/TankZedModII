@@ -120,7 +120,7 @@ function TankZedModII.Context(player, context, worldobjects)
 			else
 				print('killed '..tostring(count)..' Dreadnought')
 			end
-		end)
+		end);
 
 		sIco2.iconTexture = getTexture("media/ui/TankZedIcon_Red.png")
 
@@ -149,7 +149,7 @@ function TankZedModII.Context(player, context, worldobjects)
 			else
 				print('killed '..tostring(count)..' Zed')
 			end
-		end)
+		end);
 		sIco2.iconTexture = getTexture("media/ui/TankZedIcon_Red.png")
 
 
@@ -158,11 +158,9 @@ function TankZedModII.Context(player, context, worldobjects)
 
 -----------------------    wear*        ---------------------------
 		if not TankZedModII.isWearingTankZedII(pl) then
-
 			local ss = opt:addOption("Wear TankZed I", worldobjects, function()
 				TankZedModII.wearTankZedII(pl, 1)
 			end);
-
 			local ss = opt:addOption("Wear TankZed II", worldobjects, function()
 				TankZedModII.wearTankZedII(pl, 2)
 			end);
@@ -178,9 +176,8 @@ function TankZedModII.Context(player, context, worldobjects)
 
 
 			local ss3 = opt:addOption("Remove TankZedII Outfit", worldobjects, function()
-				TankZedModII.clearTankZedIISkin(pl)
-			end)
-
+			TankZedModII.clearTankZedIISkin(pl)
+			end);
 			ss3.iconTexture = getTexture("media/ui/TankZed_Context1.png")
 			local tip = ISWorldObjectContextMenu.addToolTip()
 			tip.description = 'removes TankZedII skin'
@@ -197,7 +194,7 @@ function TankZedModII.Context(player, context, worldobjects)
 			-----------------------
 
 			if zed then
-				local sbd = opt:addOptionOnTop("Set Zed")
+						local sbd = opt:addOptionOnTop("Set Zed")
 				sbd.iconTexture = getTexture("media/ui/TankZedIcon_Yellow.png")
 				local stz = ISContextMenu:getNew(opt)
 				opt:addSubMenu(sbd, stz)

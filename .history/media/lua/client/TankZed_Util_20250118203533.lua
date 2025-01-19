@@ -147,18 +147,16 @@ function TankZedModII.setTankZedII(zed, fit)
 end
 
 -----------------------         DEBUG*     ---------------------------
-
+if getCore():getDebug() and isAdmin() then
 	function TankZedModII.goToTankZed(x, y, z)
-		if getCore():getDebug() and isAdmin() then
-			local pl = getPlayer()
-			z = z or 0
-			pl:setX(x)
-			pl:setY(y)
-			pl:setZ(z)
-			pl:setLx(x)
-			pl:setLy(y)
-			pl:setLz(z)
-		end
+		local pl = getPlayer()
+		if z == nil then z = 0 end
+		pl:setX(x)
+		pl:setY(y)
+		pl:setZ(z)
+		pl:setLx(x)
+		pl:setLy(y)
+		pl:setLz(z)
 	end
 
 
@@ -167,9 +165,7 @@ end
 		local zeds = cell:getZombieList()
 
 		local count = 0
-		if zeds:isEmpty() then
-			return count
-		end
+		if zeds:isEmpty() then return count end
 
 		local x, y, z
 		for i = 0, zeds:size() - 1 do
@@ -180,10 +176,12 @@ end
 			end
 		end
 
-
-		if count > 0 then
-			TankZedModII.goToTankZed(x, y, z)
+		if getCore():getDebug() and isAdmin() then
+			print(count)
+			if count > 0 then
+				TankZedModII.goToTankZed(x, y, z)
+			end
 		end
 
-		return count
 	end
+end

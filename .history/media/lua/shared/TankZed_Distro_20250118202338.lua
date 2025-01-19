@@ -33,6 +33,9 @@ Discord: Glytch3r#1337 / glytch3r
 
 require 'NPCs/ZombiesZoneDefinition'
 
+
+
+
 MapSymbolDefinitions.getInstance():addTexture("TankZedMap", "media/ui/LootableMaps/TankZedMap.png")
 --MapSymbolDefinitions.getInstance():addTexture("AddServer", "media/ui/LootableMaps/AddServer.png")
 
@@ -46,5 +49,5 @@ Events.OnPostDistributionMerge.Add(function()
 
     table.insert(ZombiesZoneDefinition.Default,{name = "Dreadnought1", chanceToSpawn=SpawnLimit1, chance=SpawnRate1, });
     table.insert(ZombiesZoneDefinition.Default,{name = "Dreadnought2", chanceToSpawn=SpawnLimit2, chance=SpawnRate2, });
-    ItemPickerJava.Parse()
+    --ItemPickerJava.Parse()
 end)

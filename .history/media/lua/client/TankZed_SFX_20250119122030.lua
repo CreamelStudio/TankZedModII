@@ -46,6 +46,7 @@ end
 
 function TankZedModII.playPainSfx(zed)
 	if TankZedModII.isTankZed(zed) then
+
 		if TankZedModII.doRoll(35) then
 			zed:getEmitter():stopAll()
 			zed:getEmitter():playSound('TankZedII_Pain'..tostring(ZombRand(1,3)))

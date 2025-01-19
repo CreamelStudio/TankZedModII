@@ -37,6 +37,7 @@ TankZedModII.sfxZedList = {
 function TankZedModII.playAttackSfx(zed)
 	if not zed then return end
 	if TankZedModII.isTankZed(zed) then
+
 		if TankZedModII.doRoll(25) then
 			zed:getEmitter():stopAll()
 			zed:getEmitter():playSound('TankZedII_Attack'..tostring(ZombRand(1,3)))
@@ -46,6 +47,7 @@ end
 
 function TankZedModII.playPainSfx(zed)
 	if TankZedModII.isTankZed(zed) then
+
 		if TankZedModII.doRoll(35) then
 			zed:getEmitter():stopAll()
 			zed:getEmitter():playSound('TankZedII_Pain'..tostring(ZombRand(1,3)))

@@ -167,9 +167,7 @@ end
 		local zeds = cell:getZombieList()
 
 		local count = 0
-		if zeds:isEmpty() then
-			return count
-		end
+		if zeds:isEmpty() then return count end
 
 		local x, y, z
 		for i = 0, zeds:size() - 1 do
@@ -184,6 +182,6 @@ end
 		if count > 0 then
 			TankZedModII.goToTankZed(x, y, z)
 		end
-
 		return count
 	end
+end

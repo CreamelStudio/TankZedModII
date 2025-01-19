@@ -33,6 +33,9 @@ Discord: Glytch3r#1337 / glytch3r
 
 require 'NPCs/ZombiesZoneDefinition'
 
+
+
+
 MapSymbolDefinitions.getInstance():addTexture("TankZedMap", "media/ui/LootableMaps/TankZedMap.png")
 --MapSymbolDefinitions.getInstance():addTexture("AddServer", "media/ui/LootableMaps/AddServer.png")
 
