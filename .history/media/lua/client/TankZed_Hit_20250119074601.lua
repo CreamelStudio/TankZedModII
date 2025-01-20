@@ -43,6 +43,10 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 		end
 
 
+
+
+
+
 		if TankZedModII.isUnarmed(pl, wpn) then
 			zed:setVariable("hitreaction", "HitArmor")
 			return
@@ -89,7 +93,6 @@ function TankZedModII.DropRoll(pl)
 	if DropHandItemChance == 0 then return false end
 	return TankZedModII.doRoll(DropHandItemChance)
 end
-
 function TankZedModII.doDrop(pl)
 	if not TankZedModII.DropRoll(pl) then return end
 	local pr = pl:getPrimaryHandItem()

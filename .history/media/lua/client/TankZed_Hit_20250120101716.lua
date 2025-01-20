@@ -89,7 +89,6 @@ function TankZedModII.DropRoll(pl)
 	if DropHandItemChance == 0 then return false end
 	return TankZedModII.doRoll(DropHandItemChance)
 end
-
 function TankZedModII.doDrop(pl)
 	if not TankZedModII.DropRoll(pl) then return end
 	local pr = pl:getPrimaryHandItem()

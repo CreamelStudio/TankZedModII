@@ -122,9 +122,10 @@ function TankZedModII.getTankZedNum(zed)
 
 	local fit = zed:getOutfitName()
 	if fit then
-		if tonumber(TankZedModII.isTankZed_1(zed)) then
+		if TankZedModII.isTankZed_1(zed) then
 			return 2
-		elseif tonumber(TankZedModII.isTankZed_2(zed)) then
+		end
+		if TankZedModII.isTankZed_2(zed) then
 			return 2
 		end
 	end
@@ -147,42 +148,42 @@ end
 
 -----------------------         DEBUG*     ---------------------------
 
-function TankZedModII.goToTankZed(x, y, z)
-	if getCore():getDebug() and isAdmin() then
-		local pl = getPlayer()
-		z = z or 0
-		pl:setX(x)
-		pl:setY(y)
-		pl:setZ(z)
-		pl:setLx(x)
-		pl:setLy(y)
-		pl:setLz(z)
+	function TankZedModII.goToTankZed(x, y, z)
+		if getCore():getDebug() and isAdmin() then
+			local pl = getPlayer()
+			z = z or 0
+			pl:setX(x)
+			pl:setY(y)
+			pl:setZ(z)
+			pl:setLx(x)
+			pl:setLy(y)
+			pl:setLz(z)
+		end
 	end
-end
 
 
-function TankZedModII.dbgCount()
-	local cell = getPlayer():getCell()
-	local zeds = cell:getZombieList()
+	function TankZedModII.dbgCount()
+		local cell = getPlayer():getCell()
+		local zeds = cell:getZombieList()
 
-	local count = 0
-	if zeds:isEmpty() then
+		local count = 0
+		if zeds:isEmpty() then
+			return count
+		end
+
+		local x, y, z
+		for i = 0, zeds:size() - 1 do
+			local zed = zeds:get(i)
+			if TankZedModII.isTankZed(zed) then
+				x, y, z = round(zed:getX()),  round(zed:getY()),  round(zed:getZ())
+				count = count + 1
+			ends
+		end
+
+
+		if count > 0 then
+			TankZedModII.goToTankZed(x, y, z)
+		end
+
 		return count
 	end
-
-	local x, y, z
-	for i = 0, zeds:size() - 1 do
-		local zed = zeds:get(i)
-		if TankZedModII.isTankZed(zed) then
-			x, y, z = round(zed:getX()),  round(zed:getY()),  round(zed:getZ())
-			count = count + 1
-		ends
-	end
-
-
-	if count > 0 then
-		TankZedModII.goToTankZed(x, y, z)
-	end
-
-	return count
-end
