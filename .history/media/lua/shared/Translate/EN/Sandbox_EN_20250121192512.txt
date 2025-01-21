@@ -61,7 +61,7 @@ Sandbox_EN = {
 	Sandbox_TankZedModII_Add_ServerMsg1 = "좀비 1 처치했습니다",
 	Sandbox_TankZedModII_Add_ServerMsg2 = "좀비 2 처치했습니다",
 	Sandbox_TankZedModII_Add_GeneralChatMessage = "General Chat Message",
-    Sandbox_TankZedModII_Add_ServerImg = "Show Server Image"
+    Sandbox_TankZedModII_Add_ServerImg = "ServerImg"
 
 }
 

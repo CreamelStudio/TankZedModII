@@ -101,7 +101,7 @@ function TankZedModII.deadZedMsg(zed)
 		if SandboxVars.TankZedModII_Add.GeneralChatMessage then
 			processGeneralMessage(msg)
 		end
-		if SandboxVars.TankZedModII_Add.ServerImg then
+		if SandboxVars.TankZedModII.ImageMessage then
 			if isClient() then
 				sendClientCommand('TankZedII', 'img', {int = tonumber(int)})
 			end
