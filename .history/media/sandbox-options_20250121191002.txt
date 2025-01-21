@@ -151,17 +151,6 @@ option TankZedModII_Add.ServerMsg1
 option TankZedModII_Add.ServerMsg2
 {
 	type = string, default =  ServerMsg2,
-	page = TankZedModII_Add, translation = TankZedModII_Add_ServerMsg1,
+	page = TankZedModII_Add, translation = TankZedModII_Add_ServerMsg2,
 }
 
-option TankZedModII_Add.GeneralChatMessage
-{
-    type = boolean, default = false,
-	page = TankZedModII_Add, translation = TankZedModII_Add_GeneralChatMessage,
-}
-
-option TankZedModII_Add.ServerImg
-{
-    type = boolean, default = false,
-	page = TankZedModII_Add, translation = TankZedModII_Add_Enable,
-}

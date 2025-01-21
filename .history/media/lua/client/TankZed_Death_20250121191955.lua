@@ -140,14 +140,14 @@ end
 function TankZedModII.doSrvImg(int)
 	if int ~= nil and int ~= '' then
 		if (int == 1 or int == 2) then
-			TankZedModII.showFadeImage('media/ui/ServerImg'..tostring(int)..'.png', 9)
+			TankZedModII.showFadeImage('media/ui/ServerMsg'..tostring(int)..'.png', 9)
 		end
 	end
 end
 
 function TankZedModII.doSrvSFX()
 	timer:Simple(1, function()
-		getPlayer():playSoundLocal("TankZedII_Slain")
+		getPlayer():playSoundLocal("TankZed_Slain")
 	end)
 end
 

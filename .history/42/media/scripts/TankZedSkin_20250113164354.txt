@@ -1,4 +1,4 @@
-module TankZedModII {
+module TankZedII {
     imports { Base }
 
 	item Dreadnought1

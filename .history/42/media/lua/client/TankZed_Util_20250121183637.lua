@@ -1,4 +1,4 @@
---[[⠀
+--[[
 ----------------------------------------------------------------------------------------------------------------------------⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                       ⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⣀⣰⣦⣀⣀⠀⠠⠄⠄⠠⠀⠀⢀⣠⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣶⡿⢿⣦⠀⠀⠀⠀⠀⠀⠀⢀⡷⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⣩⡿⠋⠙⠉⢩⡿⠟⠀⠀⠀⠀⠀⠀⢀⣶⣾⠟⠋⠛⣿⣷⡄⠀⠀⠀⠀⠀⣴⣿⠂⠀⠀⣼⡿⠀⠀⠀⠀⠀⠀⢀⣠⡴⠶⣤⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⠦⠤⣤⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -17,89 +17,141 @@ https://steamcommunity.com/id/glytch3r/myworkshopfiles/
 https://ko-fi.com/glytch3r
 Discord: Glytch3r#1337 / glytch3r
 
+
 ----------------------------------------------------------------------------------------------------------------------------
 --]]
-
---server
-if isClient() then return; end
-
-local Commands = {};
-Commands.TankZedII = {};
-
-Commands.TankZedII.isTankZedII = function(player, args)
-    local playerId = player:getOnlineID();
-    sendServerCommand('TankZedII', 'isTankZedII', {id = playerId, isTankZedII = args.isTankZedII,  zedID = args.zedID})
+TankZedModII = TankZedModII or {}
+------------------------               ---------------------------
+function TankZedModII.doRoll(percent) if percent >= ZombRand(1, 101) then return true end return false end
+-----------------------            ---------------------------
+function TankZedModII.checkDist(pl, zed)
+	local x, y = zed:getX(), zed:getY()
+	local dist = pl:DistTo(x, y)
+    return math.floor(dist)
 end
 
-Commands.TankZedII.Stats = function(player, args)
-    local playerId = player:getOnlineID()
-    local commandArgs = {id = playerId, zedID = args.zedID}
-
-    if args.HP then
-        commandArgs.HP = args.HP
-    end
-    if args.WALK then
-        commandArgs.WALK = args.WALK
-    end
-
-    sendServerCommand('TankZedII', 'Stats', commandArgs)
-end
-
-
-
-Commands.TankZedII.knockDownZed = function(player, args)
-    local playerId = player:getOnlineID();
-    sendServerCommand('TankZedII', 'knockDownZed', {id = playerId, zedID = args.zedID})
-end
-Commands.TankZedII.isWearingTankZedII = function(player, args)
-    local playerId = player:getOnlineID();
-    sendServerCommand('TankZedII', 'isWearingTankZedII', {id = playerId, isWearingTankZedII =  args.isWearingTankZedII})
-end
-Commands.TankZedII.Bashed = function(player, args)
-    local playerId = player:getOnlineID();
-    sendServerCommand('TankZedII', 'Bashed', {id = playerId, targID = args.targID})
-end
-
-Commands.TankZedII.isSprinter = function(player, args)
-    local playerId = player:getOnlineID();
-    sendServerCommand('TankZedII', 'isSprinter', {id = playerId, isSprinter =  args.isSprinter,  zedID = args.zedID})
-end
-Commands.TankZedII.Crash = function(player, args)
-    local playerId = player:getOnlineID();
-    sendServerCommand('TankZedII', 'Crash', {id = playerId, zedID = args.zedID})
-end
-
-Commands.TankZedII.msg = function(player, args)
-    local playerId = player:getOnlineID()
-    sendServerCommand('TankZedII', 'msg', {id = playerId, msg = args.msg})
-end
-
-Commands.TankZedII.img = function(player, args)
-    local playerId = player:getOnlineID()
-    sendServerCommand('TankZedII', 'img', {id = playerId, int = args.int})
-end
-
-Commands.TankZedII.sfx = function(player, args)
-    local playerId = player:getOnlineID()
-    sendServerCommand('TankZedII', 'sfx', {id = playerId})
-end
-
-Commands.TankZedII.doSpawn = function(player, args)
-    local x, y, z, count, fit, fChance, isDown = args.x,  args.y,  args.z, args.count, args.fit, args.fChance, args.isDown
-    local zed = addZombiesInOutfit(round(x), round(y), round(z), 1, tostring(fit), tonumber(fChance), isDown, false, isDown, isDown, 1.0)
-    if zed then
-        if isDown then
-            if not zed:isOnFloor() then
-                zed:knockDown(true)
-            end
-        end
-    end
-end
-
-Events.OnClientCommand.Add(function(module, command, player, args)
-	if Commands[module] and Commands[module][command] then
-	    Commands[module][command](player, args)
+function TankZedModII.isWithinRange(pl, zed, range)
+	if not range then return end
+	local dist
+	if pl and zed then
+		dist = pl:DistTo(zed:getX(), zed:getY())
 	end
-end)
+    return dist <= range
+end
+
+function TankZedModII.isClosestPl(pl, zed)
+	if not pl then return end
+	if not zed then return end
+	if TankZedModII.isTankZed(zed) then
+		local plDist = TankZedModII.checkDist(pl, zed)
+		local compare = round(zed:distToNearestCamCharacter())
+		if plDist == compare then
+			return true
+		end
+		return false
+	end
+end
+
+-----------------------            ---------------------------
+
+function TankZedModII.isUnarmed(pl, wpn)
+	return (tostring(WeaponType.getWeaponType(pl)) == 'barehand' or (wpn and wpn:getCategories():contains("Unarmed"))) or wpn == nil
+end
+
+-----------------------            ---------------------------
+function TankZedModII.isTankZed_1(zed)
+	local bool = false
+	if not zed then return bool end
+	if not TankZedModII.isTankZed(zed) then return bool end
+	local fit = zed:getOutfitName()
+	if fit then
+		if tostring(fit) == tostring(TankZedModII.outfit1) then
+			bool = true
+		end
+	end
+	return bool
+end
+
+function TankZedModII.isTankZed_2(zed)
+	local bool = false
+	if not zed then return bool end
+	if not TankZedModII.isTankZed(zed) then return bool end
+	local fit = zed:getOutfitName()
+	if fit then
+		if tostring(fit) == tostring(TankZedModII.outfit2) then
+			bool = true
+		end
+	end
+	return bool
+end
+-----------------------            ---------------------------
+function TankZedModII.getTankZedNum(zed)
+	if not zed then return nil end
+	if not TankZedModII.isTankZed(zed) then return nil end
+
+	local fit = zed:getOutfitName()
+	if fit then
+		if tonumber(TankZedModII.isTankZed_1(zed)) then
+			return 2
+		elseif tonumber(TankZedModII.isTankZed_2(zed)) then
+			return 2
+		end
+	end
+	return nil
+end
+	-----------------------     setTankZedII* set*          ---------------------------
+function TankZedModII.setTankZedII(zed, fit)
+	--zed:dressInPersistentOutfit(TankZedModII.outfit)
+	if not zed then return end
+	fit = fit or TankZedModII.getOutfit(fit)
+	if not TankZedModII.isTankZed(zed) then
+		zed:dressInNamedOutfit(fit)
+		zed:DoZombieInventory()
+		zed:resetModelNextFrame()
+	end
+	TankZedModII.setStats(zed)
+	zed:getEmitter():stopAll()
+	zed:getEmitter():playSound('TankZed_Distant')
+end
+
+-----------------------         DEBUG*     ---------------------------
+
+function TankZedModII.goToTankZed(x, y, z)
+	if getCore():getDebug() and isAdmin() then
+		local pl = getPlayer()
+		z = z or 0
+		pl:setX(x)
+		pl:setY(y)
+		pl:setZ(z)
+		pl:setLx(x)
+		pl:setLy(y)
+		pl:setLz(z)
+	end
+end
 
 
+function TankZedModII.dbgCount()
+	local cell = getPlayer():getCell()
+	local zeds = cell:getZombieList()
+
+	local count = 0
+	if zeds:isEmpty() then
+		return count
+	end
+
+	local x, y, z
+	for i = 0, zeds:size() - 1 do
+		local zed = zeds:get(i)
+		if TankZedModII.isTankZed(zed) then
+			x, y, z = round(zed:getX()),  round(zed:getY()),  round(zed:getZ())
+			count = count + 1
+		ends
+	end
+
+
+	if count > 0 then
+		TankZedModII.goToTankZed(x, y, z)
+	end
+
+	return count
+end

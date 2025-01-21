@@ -11,7 +11,5 @@ module Base {
 	sound TankZedII_Charge { clip { file = media/sound/TankZedII_Charge.ogg, distanceMax = 80, is3D = true, volume = 0.2, maxInstancesPerEmitter = 1, } }
 	sound TankZedII_Distant { clip { file = media/sound/TankZedII_Distant.ogg, distanceMax = 80, is3D = true, volume = 0.2, maxInstancesPerEmitter = 1, } }
 	sound TankZedII_Attack2 { clip { file = media/sound/TankZedII_Attack2.ogg, distanceMax = 80, is3D = true, volume = 0.2, maxInstancesPerEmitter = 1, } }
-
-	sound TankZedII_Slain { clip { file = media/sound/TankZedII_Slain.ogg, distanceMax = 80, is3D = true, volume = 0.2, maxInstancesPerEmitter = 1, } }
 }
 

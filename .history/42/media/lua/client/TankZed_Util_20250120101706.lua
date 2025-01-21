@@ -23,6 +23,35 @@ Discord: Glytch3r#1337 / glytch3r
 
 TankZedModII = TankZedModII or {}
 
+
+TankZedModII.adminMarker = true
+TankZedModII.skin = 'TankZedII.Dreadnought'
+
+TankZedModII.outfit = 'Dreadnought'
+TankZedModII.skin1 = 'TankZedModII.Dreadnought1'
+TankZedModII.skin2 = 'TankZedModII.Dreadnought2'
+TankZedModII.outfit1 = 'Dreadnought1'
+TankZedModII.outfit2 = 'Dreadnought2'
+
+TankZedModII.marker = nil
+TankZedModII.zed=nil
+TankZedModII.marker2 = nil
+TankZedModII.ticks = 0
+TankZedModII.markerDist = 25
+-----------------------               ------------------------------
+TankZedModII.tankFits = {
+	['Dreadnought1'] = true,
+	['Dreadnought2'] = true,
+}
+
+function TankZedModII.isTankZed(zed)
+	if not zed then return false end
+	local fit = zed:getOutfitName()
+	if fit then
+		return TankZedModII.tankFits[tostring(fit)] or false
+	end
+	return false
+end
 ------------------------               ---------------------------
 function TankZedModII.doRoll(percent) if percent >= ZombRand(1, 101) then return true end return false end
 -----------------------            ---------------------------
@@ -61,7 +90,60 @@ function TankZedModII.isUnarmed(pl, wpn)
 end
 
 -----------------------            ---------------------------
+function TankZedModII.isTankZed_1(zed)
+	local bool = false
+	if not zed then return bool end
+	if not TankZedModII.isTankZed(zed) then return bool end
+	local fit = zed:getOutfitName()
+	if fit then
+		if tostring(fit) == tostring(TankZedModII.outfit1) then
+			bool = true
+		end
+	end
+	return bool
+end
 
+function TankZedModII.isTankZed_2(zed)
+	local bool = false
+	if not zed then return bool end
+	if not TankZedModII.isTankZed(zed) then return bool end
+	local fit = zed:getOutfitName()
+	if fit then
+		if tostring(fit) == tostring(TankZedModII.outfit2) then
+			bool = true
+		end
+	end
+	return bool
+end
+-----------------------            ---------------------------
+function TankZedModII.getTankZedNum(zed)
+	if not zed then return nil end
+	if not TankZedModII.isTankZed(zed) then return nil end
+
+	local fit = zed:getOutfitName()
+	if fit then
+		if tonumber(TankZedModII.isTankZed_1(zed)) then
+			return 2
+		elseif tonumber(TankZedModII.isTankZed_2(zed)) then
+			return 2
+		end
+	end
+	return nil
+end
+	-----------------------     setTankZedII* set*          ---------------------------
+function TankZedModII.setTankZedII(zed, fit)
+	--zed:dressInPersistentOutfit(TankZedModII.outfit)
+	if not zed then return end
+	fit = fit or TankZedModII.getOutfit(fit)
+	if not TankZedModII.isTankZed(zed) then
+		zed:dressInNamedOutfit(fit)
+		zed:DoZombieInventory()
+		zed:resetModelNextFrame()
+	end
+	TankZedModII.setStats(zed)
+	zed:getEmitter():stopAll()
+	zed:getEmitter():playSound('TankZed_Distant')
+end
 
 -----------------------         DEBUG*     ---------------------------
 
