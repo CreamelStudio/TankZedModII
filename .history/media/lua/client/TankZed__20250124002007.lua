@@ -105,7 +105,10 @@ function TankZedModII.getTankZedNum(zed)
 		if fit then
 			local num = tonumber(TankZedModII.getWalkType(fit))
 			if num then
-				return num or nil
+				if (getCore():getDebug() and isAdmin()) then
+					print(num)
+				end
+				return num
 			end
 		end
 	end

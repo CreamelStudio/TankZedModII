@@ -63,12 +63,11 @@ end
 
 function TankZedModII.isTankZed_1(zed)
 	local fit = zed:getOutfitName()
-	local num = nil
 	if fit then
-		num = tonumber(TankZedModII.getWalkType(fit))
-	end
-	if num == 1 then
-		return TankZedModII.getTankZedNum(zed) == num
+		local num = tonumber(TankZedModII.getWalkType(fit))
+		if num == 1 then
+			return TankZedModII.getTankZedNum(zed) == num
+		end
 	end
 	return false
 end
@@ -103,10 +102,11 @@ function TankZedModII.getTankZedNum(zed)
 	if  TankZedModII.isTankZed(zed) then
 		local fit = zed:getOutfitName()
 		if fit then
-			local num = tonumber(TankZedModII.getWalkType(fit))
-			if num then
-				return num or nil
+			if (getCore():getDebug() and isAdmin()) then
+				--print(fit)
+				print(fit)
 			end
+			return TankZedModII.getWalkType(fit)
 		end
 	end
 	return nil
