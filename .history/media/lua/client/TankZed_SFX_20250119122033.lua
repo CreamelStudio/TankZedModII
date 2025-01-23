@@ -22,7 +22,7 @@ Discord: Glytch3r#1337 / glytch3r
 --]]
 --   reloadLuaFile("client/GooseZedSFXControl.lua")
 
---require "TankZedModII_Client"
+require "TankZedModII_Client"
 TankZedModII = TankZedModII or {}
 
 TankZedModII.sfxZedList = {

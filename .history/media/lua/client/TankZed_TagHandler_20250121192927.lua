@@ -27,7 +27,7 @@
 
 
 
---require "TankZed_Util"
+require "TankZed_Util"
 
 TankZedModII = TankZedModII or {}
 

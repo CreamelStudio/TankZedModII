@@ -1,8 +1,10 @@
-name=TankZedModII
 id=TankZedModII
+name=TankZedModII
+description=TankZedModII
 poster=poster.png
+authors=Glytch3r, darlak97
 icon=icon.png
-description=Contact Glytch3r for Custom PZ Mod Commissions.
-modversion=42.0
-pzversion=42
-author=Glytch3r
+tags=Build 41
+versionMin=41.0
+
+

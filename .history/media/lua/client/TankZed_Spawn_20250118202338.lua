@@ -27,59 +27,61 @@
 
 
 
---require "TankZed_Util"
 
+require "TankZed_Util"
 TankZedModII = TankZedModII or {}
 
-function TankZedModII.isShowTag()
-    return SandboxVars.TankZedModII.ShowName or getCore():getDebug()
-end
 
-function TankZedModII.removeTag(targ)
-    targ:clearAttachedAnimSprite()
-end
+function TankZedModII.getSpawnRandomZedInfo(fit)
+    local maleOutfits = getAllOutfits(false)
+    local femaleOutfits = getAllOutfits(true)
+    local allOutfits = {}
 
+    for i = 0, maleOutfits:size() - 1 do
+        table.insert(allOutfits, maleOutfits:get(i))
+    end
+    for i = 0, femaleOutfits:size() - 1 do
+        table.insert(allOutfits, femaleOutfits:get(i))
+    end
 
-function TankZedModII.isTagEmpty(targ)
-    return tostring(targ:getChildSprites())  == '[]'
-end
-function TankZedModII.isHasTag(targ)
-    return not TankZedModII.isTagEmpty(targ)
-end
+    if not fit or fit == '' then
+        fit = allOutfits[ZombRand(#allOutfits) + 1]
+    end
 
-function TankZedModII.setTag(targ)
-    if TankZedModII.isShowTag() then
-        if targ then
-            --if not TankZedModII.isHasTag(targ) then
-                local spr = getSprite("media/ui/Tags/Dreadnought.png"):newInstance()
-                targ:setAttachedAnimSprite(ArrayList.new())
-                local anm = targ:getAttachedAnimSprite():add(spr)
-           --end
+    local outfitExists = false
+    for _, outfit in ipairs(allOutfits) do
+        if outfit == fit then
+            outfitExists = true
+            break
         end
     end
-end
 
---[[
-
-function TankZedModII.refreshTag(zed, int)
-    if zed and TankZedModII.isTankZed(zed) then
-        if TankZedModII.isHasTag(zed) then TankZedModII.removeTag(zed) end
-        if int then
-            TankZedModII.setTag(zed)
-        else
-            TankZedModII.setTag(zed)
-        end
-
+    if not outfitExists then
+        fit = allOutfits[ZombRand(#allOutfits) + 1]
     end
-end ]]
 
-function TankZedModII.isTankChar(targ)
-    if (instanceof(targ, "IsoPlayer") and TankZedModII.isWearingTankZedII(targ)) then
-        return true
-    elseif (instanceof(targ, "IsoZombie") and TankZedModII.isTankZed(targ)) then
-        return true
+    if maleOutfits:contains(fit) and femaleOutfits:contains(fit) then
+        return fit, 0
+    elseif femaleOutfits:contains(fit) then
+        return fit, 100
     else
-        return false
+        return fit, 0
     end
 end
 
+function TankZedModII.doSpawn(sq, isDown, outfit)
+    if sq then
+        local x, y, z = sq:getX(), sq:getY(), sq:getZ()
+        local fit, fChance = TankZedModII.getSpawnRandomZedInfo()
+        if outfit and outfit ~= '' then
+            fit, fChance = TankZedModII.getSpawnRandomZedInfo(outfit)
+        end
+        if isClient() then
+            sendClientCommand('TankZedII', 'doSpawn', {x = x, y = y, z = z, count = 1, fit = fit, fChance = fChance, isDown = isDown})
+        else
+            local x, y, z = sq:getX(), sq:getY(), sq:getZ()
+            local zed = addZombiesInOutfit(x, y, z, 1,  fit, fChance, false, isDown, false, isDown, 3)
+            TankZedModII.setTankZedII(zed, fit)
+        end
+    end
+end

@@ -94,7 +94,7 @@ function TankZedModII.dbgCount()
 		if TankZedModII.isTankZed(zed) then
 			x, y, z = round(zed:getX()),  round(zed:getY()),  round(zed:getZ())
 			count = count + 1
-		end
+		ends
 	end
 
 

@@ -93,7 +93,7 @@ function TankZedModII.AdminTankZedII(pl)
 			pl:setVariable('isWearingTankZedII', 'true')
 			if not pl:isHideWeaponModel() then
 				pl:setHideWeaponModel(true)
-				--TankZedModII.setTag(pl)
+				TankZedModII.setTag(pl)
 			end
 			if isClient() then
 				sendClientCommand('TankZedII', 'isWearingTankZedII', {isWearingTankZedII = true})
@@ -104,7 +104,7 @@ function TankZedModII.AdminTankZedII(pl)
 			pl:setVariable('isWearingTankZedII', 'false');
 			if pl:isHideWeaponModel() then
 				pl:setHideWeaponModel(false)
-				--TankZedModII.removeTag(pl)
+				TankZedModII.removeTag(pl)
 			end
 			if isClient() then
 				sendClientCommand('TankZedII', 'isWearingTankZedII', {isWearingTankZedII = false})
@@ -114,8 +114,8 @@ function TankZedModII.AdminTankZedII(pl)
 
 end
 
---Events.OnPlayerUpdate.Remove(TankZedModII.AdminTankZedII)
---Events.OnPlayerUpdate.Add(TankZedModII.AdminTankZedII)
+Events.OnPlayerUpdate.Remove(TankZedModII.AdminTankZedII)
+Events.OnPlayerUpdate.Add(TankZedModII.AdminTankZedII)
 
 
 
@@ -144,7 +144,6 @@ TankZedModII.plAttack = {
 	"TankZedII_Attack1",
 	"TankZedII_Charge",
 }
-
 function TankZedModII.playPlSfx(pl, tab, attract)
 
 	if pl:isGhostMode() or pl:isInvincible() then return end

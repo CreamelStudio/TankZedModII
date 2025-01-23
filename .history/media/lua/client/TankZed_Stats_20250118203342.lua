@@ -21,86 +21,91 @@ Discord: Glytch3r#1337 / glytch3r
 ----------------------------------------------------------------------------------------------------------------------------
 --]]
 
+require "TankZed_Util"
 TankZedModII = TankZedModII or {}
-
-------------------------               ---------------------------
-function TankZedModII.doRoll(percent) if percent >= ZombRand(1, 101) then return true end return false end
------------------------            ---------------------------
-function TankZedModII.checkDist(pl, zed)
-	local x, y = zed:getX(), zed:getY()
-	local dist = pl:DistTo(x, y)
-    return math.floor(dist)
+function TankZedModII.setStatsToAll()
+    local zombies = getCell():getZombieList()
+    if not getCell() or not zombies then return end
+    for i = 0, zombies:size() - 1 do
+        local zed = zombies:get(i)
+        if zed and TankZedModII.isTankZed(zed) then
+--[[             local spr = getSprite("media/ui/Tags/Dreadnought.png"):newInstance()
+            zed:setAttachedAnimSprite(ArrayList.new())
+            local anm = zed:getAttachedAnimSprite():add(spr) ]]
+            if zed:getModData()['TankZedII_Init'] == nil then
+				TankZedModII.setStats(zed)
+            end
+        end
+    end
 end
 
-function TankZedModII.isWithinRange(pl, zed, range)
-	if not range then return end
-	local dist
-	if pl and zed then
-		dist = pl:DistTo(zed:getX(), zed:getY())
-	end
-    return dist <= range
+function TankZedModII.clearMDToAll()
+    local zombies = getCell():getZombieList()
+    if not getCell() or not zombies then return end
+    for i = 0, zombies:size() - 1 do
+        local zed = zombies:get(i)
+        if zed and TankZedModII.isTankZed(zed) then
+            zed:getModData()['TankZedII_Init'] = nil
+        end
+    end
 end
 
-function TankZedModII.isClosestPl(pl, zed)
-	if not pl then return end
-	if not zed then return end
-	if TankZedModII.isTankZed(zed) then
-		local plDist = TankZedModII.checkDist(pl, zed)
-		local compare = round(zed:distToNearestCamCharacter())
-		if plDist == compare then
-			return true
-		end
-		return false
-	end
+function TankZedModII.setStats(zed)
+    if zed and TankZedModII.isTankZed(zed) then
+        if zed:getModData()['TankZedII_Init'] == nil then
+            local sandOpt = getSandboxOptions()
+            local zCog = sandOpt:getOptionByName("ZombieLore.Cognition"):getValue()
+            local zStr = sandOpt:getOptionByName("ZombieLore.Strength"):getValue()
+            --zed:setUseless(true)
+            zed:setUseless(false)
+            zed:makeInactive(true);
+            zed:makeInactive(false);
+
+            sandOpt:set("ZombieLore.Cognition",1)
+            sandOpt:set("ZombieLore.Strength",1)
+
+
+            if zed:isFakeDead() then
+                zed:setFakeDead(false)
+            end
+            if zed:isOnFloor() then
+                zed:setCanWalk(true)
+            end
+
+            --zed:setNoTeeth(true)
+
+            --if zed:getTurnDelta() ~= 3 then zed:setTurnDelta(3) end
+
+            -----------------------            ---------------------------
+
+
+            zed:setVariable('isTankZedII', 'true')
+
+            zed:DoZombieStats()
+
+            TankZedModII.setWalkType(zed)
+            sandOpt:set("ZombieLore.Cognition", zCog)
+
+            sandOpt:set("ZombieLore.Strength", zStr)
+
+            zed:getModData()['TankZedII_Init'] = true
+            --getSandboxOptions():toLua()
+        end
+    end
 end
 
------------------------            ---------------------------
-
-function TankZedModII.isUnarmed(pl, wpn)
-	return (tostring(WeaponType.getWeaponType(pl)) == 'barehand' or (wpn and wpn:getCategories():contains("Unarmed"))) or wpn == nil
+function TankZedModII.getWalkType(fit)
+    return string.match(fit, ".*(%d+)")
 end
 
------------------------            ---------------------------
-
-
------------------------         DEBUG*     ---------------------------
-
-function TankZedModII.goToTankZed(x, y, z)
-	if getCore():getDebug() and isAdmin() then
-		local pl = getPlayer()
-		z = z or 0
-		pl:setX(x)
-		pl:setY(y)
-		pl:setZ(z)
-		pl:setLx(x)
-		pl:setLy(y)
-		pl:setLz(z)
-	end
-end
-
-
-function TankZedModII.dbgCount()
-	local cell = getPlayer():getCell()
-	local zeds = cell:getZombieList()
-
-	local count = 0
-	if zeds:isEmpty() then
-		return count
-	end
-
-	local x, y, z
-	for i = 0, zeds:size() - 1 do
-		local zed = zeds:get(i)
-		if TankZedModII.isTankZed(zed) then
-			x, y, z = round(zed:getX()),  round(zed:getY()),  round(zed:getZ())
-			count = count + 1
-		end
-	end
-
-
-	if count > 0 then
-		TankZedModII.goToTankZed(x, y, z)
-	end
-
-	return count
+function TankZedModII.setWalkType(zed)
+    if not zed then return end
+    if TankZedModII.isTankZed(zed) then
+        local fit = zed:getOutfitName()
+        local wType = TankZedModII.getWalkType(fit)
+        local curWType = zed:getVariableString("zombieWalkType")
+        if tostring(wType) ~= tostring(curWType) then
+            zed:setWalkType(tostring(wType))
+        end
+    end
 end
