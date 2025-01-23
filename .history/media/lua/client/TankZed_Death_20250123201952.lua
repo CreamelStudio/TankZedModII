@@ -40,8 +40,8 @@ function TankZedModII.deadZedLoot(zed)
 			local num = TankZedModII.getTankZedNum(zed)
 			local page = TankZedModII.getSandboxPage(num)
 
-			local lootStr = pageDrop or 'Base.Katana'
-			local dropRate = page.LootRate or 50
+			local lootStr = SandboxVars[page].Drop or 'Base.Katana'
+			local dropRate = SandboxVars[page].LootRate or 50
 
 			if SandboxVars.TankZedModII.VictorySfx then
 				getSoundManager():playUISound("GainExperienceLevel")

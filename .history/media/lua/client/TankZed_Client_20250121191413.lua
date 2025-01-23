@@ -42,30 +42,28 @@ function TankZedModII.coreFunc(zed)
 			--TankZedModII.setTag(zed)
 			TankZedModII.setStats(zed)
 		end
+	end
+    if TankZedModII.isTankZed(zed) and not zedVar then
+        zed:setVariable('isTankZedII', 'true')
+        if isClient() then
+            sendClientCommand('TankZedII', 'isTankZedII', {isTankZedII = true, zedID = zed:getOnlineID()})
+        end
 
-		if not zedVar then
-			zed:setVariable('isTankZedII', 'true')
-			--[[
-			if isClient() then
-				sendClientCommand('TankZedII', 'isTankZedII', {isTankZedII = true, zedID = zed:getOnlineID()})
-			end ]]
-
-			local zDeath = zed:getVariableBoolean('zDeath')
-			if zDeath then
-				zed:setAvoidDamage(false)
-				zed:setImmortalTutorialZombie(false)
-				zed:changeState(ZombieOnGroundState.instance())
-				zed:setAttackedBy(getCell():getFakeZombieForHit())
-				zed:becomeCorpse()
-			end
+		local zDeath = zed:getVariableBoolean('zDeath')
+		if zDeath then
+			zed:setAvoidDamage(false)
+			zed:setImmortalTutorialZombie(false)
+			zed:changeState(ZombieOnGroundState.instance())
+			zed:setAttackedBy(getCell():getFakeZombieForHit())
+			zed:becomeCorpse()
 		end
-    elseif not TankZedModII.isTankZed(zed) then
-		if zedVar then
-			zed:setVariable('isTankZedII', 'false')
-			--[[
-			if isClient() then
-				sendClientCommand('TankZedII', 'isTankZedII', {isTankZedII = false, zedID = zed:getOnlineID()})
-			end ]]
+
+    elseif not TankZedModII.isTankZed(zed) and zedVar then
+        zed:setVariable('isTankZedII', 'false')
+
+
+        if isClient() then
+            sendClientCommand('TankZedII', 'isTankZedII', {isTankZedII = false, zedID = zed:getOnlineID()})
         end
     end
 

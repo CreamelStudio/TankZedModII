@@ -58,7 +58,6 @@ function TankZedModII.isTankSkin(fType)
 	end
 	return false
 end
-
 function TankZedModII.clearTankZedIISkin(pl)
 	local inv = pl:getInventory()
 	for i = inv:getItems():size(), 1, -1 do

@@ -37,6 +37,8 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 	if TankZedModII.isTankZed(zed) then
 		zed:setAvoidDamage(true)
 
+
+
 		if isDebugEnabled() then
 			if zed:getPlayerAttackPosition() ~= nil then
 			zed:addLineChatElement(tostring(zed:getPlayerAttackPosition()))
@@ -58,35 +60,31 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 			local healthDmg = mult / varHP
 
 			zed:setHealth(zed:getHealth() - healthDmg)
+			local hp = zed:getHealth()
 
-
-
-
-			zed:setVariable("hitreaction", "TankZed_HitReact")
-		else
-			zed:setVariable("hitreaction", "HitArmor")
-		end
-		local hp = zed:getHealth()
-		if hp then
 			if isDebugEnabled() then
 				zed:SayDebug(tostring(hp))
 				print(tostring(hp))
 			end
 
-		end
-		--zed:setVariable("hitreaction", "HitArmor")
+			--zed:setVariable("hitreaction", "HitArmor")
 
-		if pl == getPlayer() then
-			zed:getEmitter():stopAll()
-			TankZedModII.playPainSfx(zed)
-		end
+			if pl == getPlayer() then
+				zed:getEmitter():stopAll()
+				TankZedModII.playPainSfx(zed)
+			end
+			local hp = zed:getHealth()
+			if hp and hp <= 0 or zed:getVariableBoolean('zDeath') then
+				zed:setAvoidDamage(false)
+				zed:setImmortalTutorialZombie(false)
+				zed:changeState(ZombieOnGroundState.instance())
+				zed:setAttackedBy(getCell():getFakeZombieForHit())
+				zed:becomeCorpse()
+			end
 
-		if (hp and hp <= 0) or zed:getVariableBoolean('zDeath') then
-			zed:setAvoidDamage(false)
-			zed:setImmortalTutorialZombie(false)
-			zed:changeState(ZombieOnGroundState.instance())
-			zed:setAttackedBy(pl)
-			zed:becomeCorpse()
+			zed:setVariable("hitreaction", "TankZed_HitReact")
+		else
+			zed:setVariable("hitreaction", "HitArmor")
 		end
 	end
 end

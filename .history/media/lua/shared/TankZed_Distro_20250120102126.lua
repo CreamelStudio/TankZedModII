@@ -38,7 +38,6 @@ MapSymbolDefinitions.getInstance():addTexture("TankZedMap", "media/ui/LootableMa
 
 Events.OnPostDistributionMerge.Add(function()
     --ZombiesZoneDefinition.Default = ZombiesZoneDefinition.Default or {};
-
     local SpawnLimit1 = SandboxVars.TankZedModII_1.SpawnLimit or 1
     local SpawnRate1 = SandboxVars.TankZedModII_1.SpawnRate or 1
 

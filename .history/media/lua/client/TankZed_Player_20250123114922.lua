@@ -22,7 +22,7 @@ Discord: Glytch3r#1337 / glytch3r
 ----------------------------------------------------------------------------------------------------------------------------
 --]]
 
---require "TankZed_Util"
+require "TankZed_Util"
 TankZedModII = TankZedModII or {}
 
 local Commands = {};
@@ -30,11 +30,6 @@ Commands.TankZedII = {};
 
 TankZedModII.skin1 = 'TankZedModII.Dreadnought1'
 TankZedModII.skin2 = 'TankZedModII.Dreadnought2'
-
-TankZedModII.skinList = {
-	['TankZedModII.Dreadnought1'] = true,
-	['TankZedModII.Dreadnought2'] = true
-}
 ------------------------    pl*           ----------
 function TankZedModII.wearTankZedII(pl, int)
 	pl = pl or getPlayer()
@@ -53,22 +48,16 @@ end
 
 -----------------------     working*       ---------------------------
 function TankZedModII.isTankSkin(fType)
-	if fType then
-		return TankZedModII.skinList[tostring(fType)] or false
-	end
-	return false
+	return fType == tostring(TankZedModII.skin1) or fType == tostring(TankZedModII.skin2)
 end
-
 function TankZedModII.clearTankZedIISkin(pl)
 	local inv = pl:getInventory()
 	for i = inv:getItems():size(), 1, -1 do
 		local item = inv:getItems():get(i-1)
 		local fType = item:getFullType()
-		if fType then
-			if TankZedModII.isTankSkin(fType) then
+		if item and TankZedModII.isTankSkin(fType) then
 			--pl:removeWornItem(item)
-				inv:DoRemoveItem(item)
-			end
+			inv:DoRemoveItem(item)
 		end
 	end
 	TankZedModII.removeTag(pl)
@@ -87,8 +76,8 @@ function TankZedModII.isWearingTankZedII(pl)
 		local equip = pl:getWornItems():getItemByIndex(i)
 		if equip then
 			local fType = equip:getFullType()
-			if fType then
-				return TankZedModII.skinList[tostring(fType)] or false
+			if fType and TankZedModII.isTankSkin(fType) then
+				return true
 			end
 		end
 	end

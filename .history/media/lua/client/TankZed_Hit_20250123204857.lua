@@ -58,8 +58,19 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 			local healthDmg = mult / varHP
 
 			zed:setHealth(zed:getHealth() - healthDmg)
+			local hp = zed:getHealth()
 
+			if isDebugEnabled() then
+				zed:SayDebug(tostring(hp))
+				print(tostring(hp))
+			end
 
+			--zed:setVariable("hitreaction", "HitArmor")
+
+			if pl == getPlayer() then
+				zed:getEmitter():stopAll()
+				TankZedModII.playPainSfx(zed)
+			end
 
 
 			zed:setVariable("hitreaction", "TankZed_HitReact")
@@ -67,20 +78,6 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 			zed:setVariable("hitreaction", "HitArmor")
 		end
 		local hp = zed:getHealth()
-		if hp then
-			if isDebugEnabled() then
-				zed:SayDebug(tostring(hp))
-				print(tostring(hp))
-			end
-
-		end
-		--zed:setVariable("hitreaction", "HitArmor")
-
-		if pl == getPlayer() then
-			zed:getEmitter():stopAll()
-			TankZedModII.playPainSfx(zed)
-		end
-
 		if (hp and hp <= 0) or zed:getVariableBoolean('zDeath') then
 			zed:setAvoidDamage(false)
 			zed:setImmortalTutorialZombie(false)

@@ -22,79 +22,67 @@ Discord: Glytch3r#1337 / glytch3r
 ----------------------------------------------------------------------------------------------------------------------------
 --]]
 
---require "TankZed_Util"
+require "TankZed_Util"
 TankZedModII = TankZedModII or {}
 
 -----------------------               ---------------------------
 
 
 
-function TankZedModII.hitZed(zed, pl, part, wpn)
-	if TankZedModII.isWearingTankZedII(pl) then
-		return
-	end
 
-	if TankZedModII.isTankZed(zed) then
+function TankZedModII.hitZed(zed, pl, part, wpn)
+	if TankZedModII.isWearingTankZedII(pl) then return end
+	if TankZedModII.isTankZed(zed) and not zed:isDead() then
 		zed:setAvoidDamage(true)
 
 		if isDebugEnabled() then
+			--wpn:
 			if zed:getPlayerAttackPosition() ~= nil then
-			zed:addLineChatElement(tostring(zed:getPlayerAttackPosition()))
+				zed:addLineChatElement(tostring(zed:getPlayerAttackPosition()))
 			end
 		end
+
 
 		if TankZedModII.isUnarmed(pl, wpn) then
 			zed:setVariable("hitreaction", "HitArmor")
 			return
 		end
-
-
 		if zed:getPlayerAttackPosition() == 'BEHIND' then
-			local num = TankZedModII.getTankZedNum(zed)
-			local page = TankZedModII.getSandboxPage(num)
 
-			local varHP = page.HP or 12
-			local mult = page.Multiplier or 1
+			-----------------------            ---------------------------
+			-- SandboxVars.TankZedModII.HP
+
+
+			local int = TankZedModII.getTankZedNum(zed)
+			local page = "TankZedModII_" .. tostring(int)
+			local varHP = SandboxVars[page].HP or 12
+			local mult = SandboxVars[page].Multiplier or 1
 			local healthDmg = mult / varHP
-
-			zed:setHealth(zed:getHealth() - healthDmg)
-
-
-
-
-			zed:setVariable("hitreaction", "TankZed_HitReact")
-		else
-			zed:setVariable("hitreaction", "HitArmor")
-		end
-		local hp = zed:getHealth()
-		if hp then
+			zed:setHealth(zed:getHealth()-healthDmg)
 			if isDebugEnabled() then
-				zed:SayDebug(tostring(hp))
-				print(tostring(hp))
+				zed:SayDebug(tostring(zed:getHealth()))
+				print(tostring(zed:getHealth()))
 			end
-
+			zed:setVariable("hitreaction", "HitArmor")
+			if pl == getPlayer() then
+				zed:getEmitter():stopAll()
+				TankZedModII.playPainSfx(zed)
+			end
+			-----------------------            ---------------------------
+		else
+			zed:setVariable("hitreaction", "TankZed_HitReact")
 		end
-		--zed:setVariable("hitreaction", "HitArmor")
 
-		if pl == getPlayer() then
-			zed:getEmitter():stopAll()
-			TankZedModII.playPainSfx(zed)
-		end
 
-		if (hp and hp <= 0) or zed:getVariableBoolean('zDeath') then
-			zed:setAvoidDamage(false)
-			zed:setImmortalTutorialZombie(false)
-			zed:changeState(ZombieOnGroundState.instance())
-			zed:setAttackedBy(pl)
-			zed:becomeCorpse()
-		end
+
 	end
 end
-
-
--- Remove and add the event handler to ensure it's properly registered
 Events.OnHitZombie.Remove(TankZedModII.hitZed)
 Events.OnHitZombie.Add(TankZedModII.hitZed)
+
+
+
+
 
 function TankZedModII.DropRoll(pl)
 	local DropHandItemChance = SandboxVars.TankZedModII.DropHandItemChance
@@ -217,7 +205,7 @@ function TankZedModII.hit(zed, pl, wpn, HP)
 	if not instanceof(zed, 'IsoZombie') then return end
 	if TankZedModII.isTankZed(zed) and pl == getPlayer() then
 		if zed:isCriticalHit() then
-			if SandboxVars.TankZedModII.CanKill == true and TankZedModII.doRoll(25) then
+			if SandboxVars.TankZedModII.CanKill == true and TankZedModII.doRoll(50) then
 				pl:Kill(zed)
 				return
 			end

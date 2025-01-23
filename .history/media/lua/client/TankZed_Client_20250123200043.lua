@@ -60,7 +60,7 @@ function TankZedModII.coreFunc(zed)
 			end
 		end
     elseif not TankZedModII.isTankZed(zed) then
-		if zedVar then
+		if  zedVar then
 			zed:setVariable('isTankZedII', 'false')
 			--[[
 			if isClient() then

@@ -30,67 +30,50 @@ TankZedModII = TankZedModII or {}
 
 
 function TankZedModII.hitZed(zed, pl, part, wpn)
-	if TankZedModII.isWearingTankZedII(pl) then
+	if TankZedModII.isWearingTankZedII(pl) or zed:isDead() then
+		return
+	end
+	if TankZedModII.isTankZed(zed) then
+	zed:setAvoidDamage(true)
+
+	if isDebugEnabled() then
+		if zed:getPlayerAttackPosition() ~= nil then
+		zed:addLineChatElement(tostring(zed:getPlayerAttackPosition()))
+		end
+	end
+
+	if TankZedModII.isUnarmed(pl, wpn) then
+		zed:setVariable("hitreaction", "HitArmor")
 		return
 	end
 
-	if TankZedModII.isTankZed(zed) then
-		zed:setAvoidDamage(true)
+	if zed:getPlayerAttackPosition() == 'BEHIND' then
+		local num = TankZedModII.getTankZedNum(zed)
+		local page = TankZedModII.getSandboxPage(num)
+
+		local varHP = page.HP or 12
+		local mult = page.Multiplier or 1
+		local healthDmg = mult / varHP
+
+		zed:setHealth(zed:getHealth() - healthDmg)
+		local hp = zed:getHealth()
 
 		if isDebugEnabled() then
-			if zed:getPlayerAttackPosition() ~= nil then
-			zed:addLineChatElement(tostring(zed:getPlayerAttackPosition()))
-			end
+
+			zed:SayDebug(tostring(hp))
+			print(tostring(hp))
 		end
 
-		if TankZedModII.isUnarmed(pl, wpn) then
-			zed:setVariable("hitreaction", "HitArmor")
-			return
-		end
-
-
-		if zed:getPlayerAttackPosition() == 'BEHIND' then
-			local num = TankZedModII.getTankZedNum(zed)
-			local page = TankZedModII.getSandboxPage(num)
-
-			local varHP = page.HP or 12
-			local mult = page.Multiplier or 1
-			local healthDmg = mult / varHP
-
-			zed:setHealth(zed:getHealth() - healthDmg)
-
-
-
-
-			zed:setVariable("hitreaction", "TankZed_HitReact")
-		else
-			zed:setVariable("hitreaction", "HitArmor")
-		end
-		local hp = zed:getHealth()
-		if hp then
-			if isDebugEnabled() then
-				zed:SayDebug(tostring(hp))
-				print(tostring(hp))
-			end
-
-		end
 		--zed:setVariable("hitreaction", "HitArmor")
 
 		if pl == getPlayer() then
 			zed:getEmitter():stopAll()
 			TankZedModII.playPainSfx(zed)
 		end
-
-		if (hp and hp <= 0) or zed:getVariableBoolean('zDeath') then
-			zed:setAvoidDamage(false)
-			zed:setImmortalTutorialZombie(false)
-			zed:changeState(ZombieOnGroundState.instance())
-			zed:setAttackedBy(pl)
-			zed:becomeCorpse()
-		end
+	else
+		zed:setVariable("hitreaction", "TankZed_HitReact")
 	end
 end
-
 
 -- Remove and add the event handler to ensure it's properly registered
 Events.OnHitZombie.Remove(TankZedModII.hitZed)

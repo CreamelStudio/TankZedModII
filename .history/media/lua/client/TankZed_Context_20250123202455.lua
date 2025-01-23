@@ -42,6 +42,7 @@ end
 
 function TankZedModII.Context(player, context, worldobjects)
 	local pl = getSpecificPlayer(player)
+	if not pl then return end
 	local inv = pl:getInventory()
 	local sq = clickedSquare
 	local worldSquare = nil

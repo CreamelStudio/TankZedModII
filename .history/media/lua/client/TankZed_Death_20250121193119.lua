@@ -21,7 +21,7 @@ Discord: Glytch3r#1337 / glytch3r
 ----------------------------------------------------------------------------------------------------------------------------
 --]]
 require "lua_timers"
---require "TankZed_Util"
+require "TankZed_Util"
 
 TankZedModII = TankZedModII or {}
 
@@ -37,11 +37,11 @@ function TankZedModII.deadZedLoot(zed)
 			zed:getEmitter():stopAll()
 			zed:getEmitter():playSound('TankZed_Death')
 
-			local num = TankZedModII.getTankZedNum(zed)
-			local page = TankZedModII.getSandboxPage(num)
+			local int = TankZedModII.getTankZedNum(zed)
+			local page = "TankZedModII_" .. tostring(int)
 
-			local lootStr = pageDrop or 'Base.Katana'
-			local dropRate = page.LootRate or 50
+			local lootStr = SandboxVars[page].Drop or 'Base.Katana'
+			local dropRate = SandboxVars[page].LootRate or 50
 
 			if SandboxVars.TankZedModII.VictorySfx then
 				getSoundManager():playUISound("GainExperienceLevel")

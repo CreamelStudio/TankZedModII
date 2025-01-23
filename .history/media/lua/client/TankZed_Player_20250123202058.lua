@@ -53,22 +53,16 @@ end
 
 -----------------------     working*       ---------------------------
 function TankZedModII.isTankSkin(fType)
-	if fType then
-		return TankZedModII.skinList[tostring(fType)] or false
-	end
-	return false
+	return TankZedModII.skinList[tostring(fType)]
 end
-
 function TankZedModII.clearTankZedIISkin(pl)
 	local inv = pl:getInventory()
 	for i = inv:getItems():size(), 1, -1 do
 		local item = inv:getItems():get(i-1)
 		local fType = item:getFullType()
-		if fType then
-			if TankZedModII.isTankSkin(fType) then
+		if item and TankZedModII.isTankSkin(fType) then
 			--pl:removeWornItem(item)
-				inv:DoRemoveItem(item)
-			end
+			inv:DoRemoveItem(item)
 		end
 	end
 	TankZedModII.removeTag(pl)
