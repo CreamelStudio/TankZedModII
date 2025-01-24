@@ -85,7 +85,7 @@ function TankZedModII.isTankZed_2(zed)
 	return false
 end
 -----------------------            ---------------------------
---[[
+
 function TankZedModII.getSandboxPage(num)
 	local page = SandboxVars.TankZedModII
 	if num == 1 then
@@ -95,7 +95,8 @@ function TankZedModII.getSandboxPage(num)
 	end
 	return page
 end
- ]]
+
+--print( TankZedModII.getSandboxPage(1))
 -----------------------            ---------------------------
 function TankZedModII.getTankZedNum(zed)
 	if not zed then return nil end

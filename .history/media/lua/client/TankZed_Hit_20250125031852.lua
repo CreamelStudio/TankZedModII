@@ -53,13 +53,6 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 			local num = TankZedModII.getTankZedNum(zed)
 			local page = TankZedModII.getSandboxPage(num)
 
-
-
-
-
-
-
-
 			local varHP = page.HP or 12
 			local mult = page.Multiplier or 1
 			local healthDmg = mult / varHP
@@ -88,7 +81,7 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 			TankZedModII.playPainSfx(zed)
 		end
 
-		if (hp and hp < 0.15) then
+		if (hp and hp < 0.1) then
 			zed:setAvoidDamage(false)
 			zed:setImmortalTutorialZombie(false)
 --[[ 			zed:changeState(ZombieOnGroundState.instance())
