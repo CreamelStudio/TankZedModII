@@ -100,9 +100,8 @@ function TankZedModII.parseItems(DropList)
     return tab
 end
 function TankZedModII.SpawnRewards(sq, num)
-    if not num then return end
 	local DropList = TankZedModII.getDeathRewards(num)["DropList"]
-    local LootRate =  TankZedModII.getDeathRewards(num)["LootRate"]
+    local LootRate =  TankZedModII.getDeathRewards(num).LootRate
     if not sq then return end
     if DropList and LootRate then
         local itemList = TankZedModII.parseItems(DropList)

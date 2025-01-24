@@ -31,7 +31,8 @@ TankZedModII = TankZedModII or {}
 
 
 
-function TankZedModII.getRewardRoll(chance)
+function TankZedModII.getRewardRoll(num)
+	local chance = TankZedModII.getDeathRewards(num)
 	if chance == 0 then return false end
 	if chance == 100 then return true end
 	return TankZedModII.doRoll(chance)
@@ -58,11 +59,9 @@ function TankZedModII.getDeathRewards(num)
             ['DropList'] = SandboxVars.TankZedModII_2.DropList or "Base.SpiffoTail;Base.SpiffoSuit",
         }
     }
-    return tab[tonumber(num)]
+    return tab[tonumber(2)]
 end
-
-
-
+TankZedModII.getDeathRewards(num).DropList
 
 function TankZedModII.deadZedLoot(zed)
 
@@ -85,6 +84,14 @@ function TankZedModII.deadZedLoot(zed)
 			local sq = zed:getSquare()
 			if sq and num then
 				TankZedModII.SpawnRewards(sq, num)
+
+				local itemList = TankZedModII.parseItems(num)
+				for _, item in ipairs(itemList) do
+					if dropRate == 100 or ZombRand(100) <= dropRate then
+						sq:AddWorldInventoryItem(item, ZombRand(0.1, 0.5), ZombRand(0.1, 0.5), 0)
+					end
+				end
+
 			end
 		end
 	end
@@ -92,26 +99,24 @@ end
 Events.OnZombieDead.Remove(TankZedModII.deadZedLoot)
 Events.OnZombieDead.Add(TankZedModII.deadZedLoot)
 
-function TankZedModII.parseItems(DropList)
+function TankZedModII.parseItems(num)
     local tab = {}
+    local DropList = TankZedModII.getDeathRewards(tonumber(num), "DropList")
     for item in string.gmatch(DropList, "([^;]+)") do
         table.insert(tab, item)
     end
     return tab
 end
 function TankZedModII.SpawnRewards(sq, num)
-    if not num then return end
-	local DropList = TankZedModII.getDeathRewards(num)["DropList"]
-    local LootRate =  TankZedModII.getDeathRewards(num)["LootRate"]
-    if not sq then return end
-    if DropList and LootRate then
-        local itemList = TankZedModII.parseItems(DropList)
-        for _, item in ipairs(itemList) do
-            if TankZedModII.getRewardRoll(LootRate) then
-                sq:AddWorldInventoryItem(item, ZombRand(0.1, 0.5), ZombRand(0.1, 0.5), 0)
-            end
-        end
-    end
+	local itemList = TankZedModII.parseItems()
+	if sq then
+		for _, item in ipairs(itemList) do
+			local roll = TankZedModII.getRewardRoll(num, 'LootRate')
+			if roll then
+				sq:AddWorldInventoryItem(item, ZombRand(0, 3), ZombRand(0, 3), 0)
+			end
+		end
+	end
 end
 --[[
 

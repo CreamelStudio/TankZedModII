@@ -31,7 +31,8 @@ TankZedModII = TankZedModII or {}
 
 
 
-function TankZedModII.getRewardRoll(chance)
+function TankZedModII.getRewardRoll(num)
+	local chance = TankZedModII.getDeathRewards(num)
 	if chance == 0 then return false end
 	if chance == 100 then return true end
 	return TankZedModII.doRoll(chance)
@@ -58,7 +59,7 @@ function TankZedModII.getDeathRewards(num)
             ['DropList'] = SandboxVars.TankZedModII_2.DropList or "Base.SpiffoTail;Base.SpiffoSuit",
         }
     }
-    return tab[tonumber(num)]
+    return tab[tonumber(2)]
 end
 
 
@@ -100,14 +101,14 @@ function TankZedModII.parseItems(DropList)
     return tab
 end
 function TankZedModII.SpawnRewards(sq, num)
-    if not num then return end
-	local DropList = TankZedModII.getDeathRewards(num)["DropList"]
-    local LootRate =  TankZedModII.getDeathRewards(num)["LootRate"]
+	local DropList = TankZedModII.getDeathRewards(num).DropList
+    local LootRate =  TankZedModII.getDeathRewards(num).LootRate
     if not sq then return end
     if DropList and LootRate then
         local itemList = TankZedModII.parseItems(DropList)
         for _, item in ipairs(itemList) do
-            if TankZedModII.getRewardRoll(LootRate) then
+            local shouldSpawn = (LootRate == 100 or ZombRand(100) <= LootRate)
+            if shouldSpawn then
                 sq:AddWorldInventoryItem(item, ZombRand(0.1, 0.5), ZombRand(0.1, 0.5), 0)
             end
         end
