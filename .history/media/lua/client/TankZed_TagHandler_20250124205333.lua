@@ -48,21 +48,14 @@ function TankZedModII.isHasTag(targ)
     return not TankZedModII.isTagEmpty(targ)
 end
 
-function TankZedModII.setTag(zed)
-    zed:clearAttachedAnimSprite()
-    local num = "1"
+function TankZedModII.setTag(targ)
     if TankZedModII.isShowTag() then
-        if zed and TankZedModII.isTankZed()  then
-
-            if TankZedModII.isTankZed_2(zed) then
-                num = "2"
-            end
-
-            local spr = "media/ui/Tags/Dreadnought"..tostring(num)..".png"
-            spr = getSprite(tostring(spr)):newInstance()
-            zed:setAttachedAnimSprite(ArrayList.new())
-            local anm = zed:getAttachedAnimSprite():add(spr)
-
+        if targ then
+            --if not TankZedModII.isHasTag(targ) then
+                local spr = getSprite("media/ui/Tags/Dreadnought.png"):newInstance()
+                targ:setAttachedAnimSprite(ArrayList.new())
+                local anm = targ:getAttachedAnimSprite():add(spr)
+           -- end
         end
     end
 end

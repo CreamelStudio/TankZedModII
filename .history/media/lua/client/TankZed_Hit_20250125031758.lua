@@ -81,7 +81,7 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 			TankZedModII.playPainSfx(zed)
 		end
 
-		if (hp and hp < 0.1) then
+		if (hp and hp <= 0)  then
 			zed:setAvoidDamage(false)
 			zed:setImmortalTutorialZombie(false)
 --[[ 			zed:changeState(ZombieOnGroundState.instance())

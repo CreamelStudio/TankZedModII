@@ -55,7 +55,7 @@ Sandbox_EN = {
 	Sandbox_TankZedModII_2_DropList = "Dreadnought 2 Drop List",
 	Sandbox_TankZedModII_2_DropList_tooltip  = "Items that might spawn whenever Dreadnought 2 Dies. Use ; as delimiter",
 
-    Sandbox_TankZedModII_Add = "Add Korean PZ Server - Specific Options",
+    Sandbox_TankZedModII_Add = "Add Korean Server Specific Options",
     Sandbox_TankZedModII_Add_Enable = "Enabled",
 	Sandbox_TankZedModII_Add_Enable_tooltip = "Dont use these option if you are not Add Server",
 	Sandbox_TankZedModII_Add_ServerMsg1 = "좀비 1 처치했습니다",

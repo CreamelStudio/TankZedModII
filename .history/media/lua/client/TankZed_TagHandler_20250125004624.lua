@@ -50,20 +50,16 @@ end
 
 function TankZedModII.setTag(zed)
     zed:clearAttachedAnimSprite()
-    local num = "1"
     if TankZedModII.isShowTag() then
-        if zed and TankZedModII.isTankZed()  then
-
-            if TankZedModII.isTankZed_2(zed) then
-                num = "2"
-            end
-
-            local spr = "media/ui/Tags/Dreadnought"..tostring(num)..".png"
-            spr = getSprite(tostring(spr)):newInstance()
-            zed:setAttachedAnimSprite(ArrayList.new())
-            local anm = zed:getAttachedAnimSprite():add(spr)
-
+        local num = "1"
+        if TankZedModII.isTankZed_2(zed) then
+            num = "2"
         end
+        local spr = "media/ui/Tags/Dreadnought"..tostring(num)..".png"
+        spr = getSprite(tostring(spr)):newInstance()
+        zed:setAttachedAnimSprite(ArrayList.new())
+        local anm = zed:getAttachedAnimSprite():add(spr)
+
     end
 end
 

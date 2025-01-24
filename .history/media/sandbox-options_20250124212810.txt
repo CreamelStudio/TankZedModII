@@ -149,7 +149,7 @@ option TankZedModII_Add.ServerMsg1
 option TankZedModII_Add.ServerMsg2
 {
 	type = string, default =  ServerMsg2,
-	page = TankZedModII_Add, translation = TankZedModII_Add_ServerMsg2,
+	page = TankZedModII_Add, translation = TankZedModII_Add_ServerMsg1,
 }
 
 option TankZedModII_Add.GeneralChatMessage

@@ -110,7 +110,7 @@ function TankZedModII.doSrvImg(int)
 		end
 	end
 end
-TankZedModII.showFadeImage(imagePath, fadeDuration)
+
 function TankZedModII.doSrvSFX()
 	timer:Simple(1, function()
 		getPlayer():playSoundLocal("TankZedII_Slain")
