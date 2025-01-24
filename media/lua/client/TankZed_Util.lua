@@ -57,7 +57,10 @@ end
 -----------------------            ---------------------------
 
 function TankZedModII.isUnarmed(pl, wpn)
-	return (tostring(WeaponType.getWeaponType(pl)) == 'barehand' or (wpn and wpn:getCategories():contains("Unarmed"))) or wpn == nil
+	wpn = wpn or pl:getPrimaryHandItem()
+	if not wpn then return true end
+	if wpn:getCategories():contains("Unarmed") then return true end
+	return tostring(WeaponType.getWeaponType(pl)) == 'barehand' or false
 end
 
 -----------------------            ---------------------------

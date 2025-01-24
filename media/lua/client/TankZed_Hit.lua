@@ -39,7 +39,7 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 
 		if isDebugEnabled() then
 			if zed:getPlayerAttackPosition() ~= nil then
-			zed:addLineChatElement(tostring(zed:getPlayerAttackPosition()))
+				zed:addLineChatElement(tostring(zed:getPlayerAttackPosition()))
 			end
 		end
 
@@ -81,7 +81,7 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 			TankZedModII.playPainSfx(zed)
 		end
 
-		if (hp and hp <= 0) or zed:getVariableBoolean('zDeath') then
+		if (hp and hp <= 0)  then
 			zed:setAvoidDamage(false)
 			zed:setImmortalTutorialZombie(false)
 			zed:changeState(ZombieOnGroundState.instance())
@@ -92,7 +92,6 @@ function TankZedModII.hitZed(zed, pl, part, wpn)
 end
 
 
--- Remove and add the event handler to ensure it's properly registered
 Events.OnHitZombie.Remove(TankZedModII.hitZed)
 Events.OnHitZombie.Add(TankZedModII.hitZed)
 
@@ -106,7 +105,7 @@ function TankZedModII.doDrop(pl)
 	if not TankZedModII.DropRoll(pl) then return end
 	local pr = pl:getPrimaryHandItem()
 	if not pr then return end
-	if tostring(WeaponType.getWeaponType(pl)) == 'barehand' or  pr:getCategories():contains("Unarmed") then return end
+	if TankZedModII.isUnarmed(pl, pr) then return end
 	if pr ~= nil then
 		local sr = pl:getSecondaryHandItem()
 		if sr ~= nil then
@@ -181,10 +180,12 @@ function TankZedModII.BashRoll(pl)
 	return TankZedModII.doRoll(BashChance)
 end
 function TankZedModII.doAddDmg(pl)
-	local minDmg = SandboxVars.TankZedModII.MinDmg
-	local maxDmg = SandboxVars.TankZedModII.MaxDmg
+	local minDmg = SandboxVars.TankZedModII.MinDmg or 35
+	local maxDmg = SandboxVars.TankZedModII.MaxDmg or 80
 	local part = TankZedModII.getPart(pl)
-	part:AddDamage(ZombRand(minDmg, maxDmg+1))
+	if part then
+		part:AddDamage(ZombRand(minDmg, maxDmg+1))
+	end
 end
 
 function TankZedModII.doBash(pl)
@@ -215,6 +216,7 @@ end
 function TankZedModII.hit(zed, pl, wpn, HP)
 	if not zed then return end
 	if not instanceof(zed, 'IsoZombie') then return end
+
 	if TankZedModII.isTankZed(zed) and pl == getPlayer() then
 		if zed:isCriticalHit() then
 			if SandboxVars.TankZedModII.CanKill == true and TankZedModII.doRoll(25) then
@@ -235,10 +237,12 @@ Events.OnWeaponHitCharacter.Add(TankZedModII.hit)
 function TankZedModII.adminHitZed(zed, pl, bodyPartType, wpn)
 
 	if TankZedModII.isWearingTankZedII(pl) then
-		zed:setKnockedDown(true)
-		if isClient() then
-			sendClientCommand('TankZedII', 'knockDownZed', {zedID = zed:getOnlineID()})
-			getSoundManager():PlayWorldSound('FallLight', zed:getSquare(), 0, 5, 5, false);
+		if not TankZedModII.isTankZed(zed) then
+			zed:setKnockedDown(true)
+			if isClient() then
+				sendClientCommand('TankZedII', 'knockDownZed', {zedID = zed:getOnlineID()})
+				getSoundManager():PlayWorldSound('FallLight', zed:getSquare(), 0, 5, 5, false);
+			end
 		end
 	else
 		zed:setKnockedDown(false)
