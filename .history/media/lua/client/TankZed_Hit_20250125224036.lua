@@ -104,7 +104,7 @@ function TankZedModII.doDrop(pl)
 	if not TankZedModII.DropRoll(pl) then return end
 	local pr = pl:getPrimaryHandItem()
 	if not pr then return end
-	if TankZedModII.isUnarmed(pl) then return end
+	if TankZedModII.isUnarmed(pl, pr) then return end
 	if pr ~= nil then
 		local sr = pl:getSecondaryHandItem()
 		if sr ~= nil then

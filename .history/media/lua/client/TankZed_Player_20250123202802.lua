@@ -156,13 +156,6 @@ TankZedModII.plAttack = {
 	"TankZedII_Charge",
 }
 
-function TankZedModII.isUnarmed(pl)
-    if pl == nil then pl = getPlayer() end
-	local wpn = pl:getPrimaryHandItem()
-	return tostring(WeaponType.getWeaponType(pl)) == 'barehand' or (wpn and wpn:getCategories():contains("Unarmed") ) or wpn == nil
-end
-
-
 function TankZedModII.playPlSfx(pl, tab, attract)
 
 	if pl:isGhostMode() or pl:isInvincible() then return end
