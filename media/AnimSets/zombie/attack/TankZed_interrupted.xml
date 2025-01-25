@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <animNode>
-	<m_Name>TankZedinterrupted</m_Name>
-	<m_SpeedScale>0.40</m_SpeedScale>
+	<m_Name>TankZed_interrupted</m_Name>
+	<m_SpeedScale>2.2</m_SpeedScale>
 	<m_AnimName>TankZed_ShotLegHard</m_AnimName>
 	<m_deferredBoneAxis>Y</m_deferredBoneAxis>
 	<m_Looped>false</m_Looped>

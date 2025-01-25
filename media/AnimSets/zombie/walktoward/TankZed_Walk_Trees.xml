@@ -2,7 +2,7 @@
 <animNode>
 	<m_Name>TankZed_Walk_Trees</m_Name>
 	<m_SpeedScale>0.80</m_SpeedScale>
-	<m_AnimName>TankZed_Walk</m_AnimName>
+	<m_AnimName>TankZed_WalkTall</m_AnimName>
 	<m_deferredBoneAxis>Y</m_deferredBoneAxis>
 	<m_BlendTime>0.20</m_BlendTime>
 	<m_Conditions>
@@ -25,6 +25,12 @@
 		<m_Name>isTankZedII</m_Name>
 		<m_Type>BOOL</m_Type>
 		<m_BoolValue>true</m_BoolValue>
+	</m_Conditions>
+
+	<m_Conditions>
+		<m_Name>zombieWalkType</m_Name>
+		<m_Type>STRING</m_Type>
+		<m_StringValue>1</m_StringValue>
 	</m_Conditions>
 
 </animNode>

@@ -2,6 +2,7 @@
 <animNode x_extends="Default.xml">
 	<m_Name>TankZed_HitArmor_Low</m_Name>
 	<m_AnimName>TankZed_HitArmor_Low</m_AnimName>
+
 	<m_BlendTime>0.20</m_BlendTime>
 	<m_Conditions>
 		<m_Name>hitreaction</m_Name>
