@@ -87,7 +87,9 @@ function TankZedModII.CarCrash(zed)
 end
 
 Events.OnZombieUpdate.Remove(TankZedModII.CarCrash)
-Events.OnZombieUpdate.Add(TankZedModII.CarCrash)
+Events.OnCreatePlayer.Add(function()
+	Events.OnZombieUpdate.Add(TankZedModII.CarCrash)
+end)
 
 Events.EveryTenMinutes.Add(function() TankZedModII.shouldCrash = true end)
 Events.OnExitVehicle.Add(function() TankZedModII.shouldCrash = true end)

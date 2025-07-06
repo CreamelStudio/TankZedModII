@@ -1,7 +1,8 @@
 version=1
 id=
-title=TankZedModII
-description=[h1]TankZedModII[/h1]
+title=
+description=TankZedModII
+description=[h1][/h1]
 description=
 description=
 description=
